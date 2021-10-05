@@ -6,10 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      <ToastContainer />
       <App />
     </BrowserRouter>
   </React.StrictMode>,

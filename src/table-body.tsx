@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import Like from './like';
+import Like from './common-components/like';
 
 interface Props {
     movies: any;

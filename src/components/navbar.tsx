@@ -10,8 +10,20 @@ const Navbar = (props: any) => {
                      to="/movies" onClick={() => props.onTabChange('Movies')}>Movies</Link>
                     <Link className={props.activeTab === 'Buget' ? "nav-link active bg-warning" : "nav-link"}
                      to="/budget" onClick={() => props.onTabChange('Buget')}>Budget</Link>
-                     <Link className={props.activeTab === 'Login' ? "nav-link active bg-warning" : "nav-link"}
-                     to="/login" onClick={() => props.onTabChange('Login')}>Login</Link>
+                     <Link className={props.activeTab === 'Hooks' ? "nav-link active bg-warning" : "nav-link"}
+                     to="/hooks" onClick={() => props.onTabChange('Hooks')}>Hooks</Link>
+                    {props.user &&
+                            <><Link className={props.activeTab === 'Logout' ? "nav-link active bg-warning" : "nav-link"}
+                        to="/" onClick={() => props.onTabChange('Logout')}>{props.user.iss} </Link>
+                        <Link className={props.activeTab === 'Logout' ? "nav-link active bg-warning" : "nav-link"}
+                            to="/logout" onClick={() => props.onTabChange('Logout')}>Logout</Link></>
+                    }
+                     
+                    {!props.user && 
+                        <Link className={props.activeTab === 'Login' ? "nav-link active bg-warning" : "nav-link"}
+                     to="/login" onClick={() => props.onTabChange('Login')}>Login</Link>}
+
+
                 </div>
         </nav>
     </div>;

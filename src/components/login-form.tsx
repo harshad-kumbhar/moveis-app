@@ -1,10 +1,16 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import Input from '../common-components/input-fiels';
 import Joi from 'joi-browser';
+import { Link, Route } from 'react-router-dom';
+import Register from './register';
+import http from '../services/httpService';
+import { toast } from 'react-toastify';
+
 
 
  interface Props {
      message: string;
+     history: any;
  }
   
  interface State {
@@ -59,27 +65,41 @@ import Joi from 'joi-browser';
         this.setState({account, errors});
      }
 
-     onSave = (e: any) => {
+     onSave = async (e: any) => {
         e.preventDefault();
         const errors = this.validate();
         this.setState({ errors });
         if (errors) return null;
+         try {                    
+                const {data} = await http.post('api/user/login', this.state.account);
+                localStorage.setItem('token', data.token);
+                window.location.href = '/';
+            } catch (ex: any) {
+                if (ex.response && ex.response.status >= 400 && ex.response.status < 500) {
+                    toast.error('Invalid Username and Password');
+                }
+                toast.error(ex.response.data.message);
+            }
     }
 
      render() { 
          const {username, password} = this.state.account;
          return ( 
-            <form className="container custom-form" onSubmit={this.onSave}>
-                <div className="mb-3">
-                    <Input error={this.state.errors['username']} value={username} name='username'
-                     label='Username' onChange={this.handleChange} type="text"></Input>
-                </div>
-                <div className="mb-3">
-                    <Input error={this.state.errors['password']} value={password} name='password'
-                     label='Password' onChange={this.handleChange} type="text"></Input>
-                </div>
-                <button className="btn btn-primary">Submit</button>
-            </form>
+             <React.Fragment>
+                <form className="container custom-form" onSubmit={this.onSave}>
+                    <div className="mb-3">
+                        <Input error={this.state.errors && this.state.errors['username']} value={username} name='username'
+                        label='Username' onChange={this.handleChange} type="text"></Input>
+                    </div>
+                    <div className="mb-3">
+                        <Input error={this.state.errors && this.state.errors['password']} value={password} name='password'
+                        label='Password' onChange={this.handleChange} type="text"></Input>
+                    </div>
+                    <button className="btn btn-primary">Submit</button>
+                    <Link to='/register'> Create Account</Link>
+                </form>
+             </React.Fragment>
+
           );
      }
  }
